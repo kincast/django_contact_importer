@@ -3,9 +3,9 @@
 from django.shortcuts import redirect, render_to_response
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from contact_importer.providers import (GoogleContactImporter, 
-                                        YahooContactImporter, 
-                                        LiveContactImporter)
+from contact_importer.providers.google import GoogleContactImporter
+from contact_importer.providers.yahoo import YahooContactImporter
+from contact_importer.providers.live import LiveContactImporter
 
 providers = {
     "google": GoogleContactImporter,
@@ -55,7 +55,7 @@ def _get_redirect_url(request):
         redirect_url = "%s://%s%s" % (request_scheme, request.META["HTTP_HOST"], invite_url)
         return redirect_url
 
-def _get_provider_instance(provider, redirect_url):    
+def _get_provider_instance(provider, redirect_url):
     if provider not in providers:
         raise Exception("The provider %s is not supported." % provider)
 
